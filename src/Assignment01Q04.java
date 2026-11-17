@@ -3,8 +3,30 @@ import java.util.Arrays;
 public class Assignment01Q04 {
 
     public static int[] shiftArrayCyclic(int[] array, int move, char direction) {
-        // TODO: implement
+        if ((direction != 'R' && direction != 'L') || array.length <= 1) {
+            return array;
+        }
+
+        int n = array.length;
+        long normalisedRightMove = (direction == 'R') ? (long) move : -(long) move;
+        int k = (int) (((normalisedRightMove % n) + n) % n);
+
+        if (k == 0) {
+            return array;
+        }
+
+        shiftRecursiveHelper(array, 0, k);
         return array;
+    }
+
+    private static void shiftRecursiveHelper(int[] array, int index, int k) {
+        if (index == array.length) {
+            return;
+        }
+
+        int currentValue = array[index];
+        shiftRecursiveHelper(array, index + 1, k);
+        array[(index + k) % array.length] = currentValue;
     }
 
     public static void main(String[] args) {
